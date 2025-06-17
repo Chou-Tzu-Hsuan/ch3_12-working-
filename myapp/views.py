@@ -82,3 +82,29 @@ def index(request):
         # print(dataCount)
         # #return HttpResponse("HeLlo")
     return render(request, "index.html" , locals())
+
+def edit(request,id=None):
+    print(f"id={id}")
+    if request.method == "POST":
+        cName = request.POST["cName"]
+        cSex =request.POST["cSex"]
+        cBirthday =request.POST["cBirthday"]
+        cEmail =request.POST["cEmail"]
+        cPhone =request.POST["cPhone"]
+        cAddr =request.POST["cAddr"]   #以上是post收到資料,再次定義給變數
+        print(f"cName={cName},cSex={cSex},cBirthday={cBirthday},cEmail={cEmail},cPhone={cPhone},cAddr={cAddr}")
+        #ORM
+        update = students.objects.get(cID=id)   #以下是更新至資料庫的動作
+        update.cName = cName
+        update.cSex = cSex
+        update.cBirthday = cBirthday
+        update.cEmail = cEmail
+        update.cPhone = cPhone
+        update.cAddr = cAddr
+        update.save()
+        return redirect("/index/") #更新完回首頁
+        #return HttpResponse(f"HeLlo{cName}己更新完成")
+    else:
+        obj_data = students.objects.get(cID=id)
+        print(model_to_dict(obj_data))
+        return render(request, "edit.html",locals())
