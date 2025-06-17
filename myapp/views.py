@@ -82,3 +82,20 @@ def index(request):
         # print(dataCount)
         # #return HttpResponse("HeLlo")
     return render(request, "index.html" , locals())
+
+def post(request):
+    if request.method == "POST":
+        cName = request.POST["cName"]
+        cSex =request.POST["cSex"]
+        cBirthday =request.POST["cBirthday"]
+        cEmail =request.POST["cEmail"]
+        cPhone =request.POST["cPhone"]
+        cAddr =request.POST["cAddr"]
+        print(f"cName={cName},cSex={cSex},cBirthday={cBirthday},cEmail={cEmail},cPhone={cPhone},cAddr={cAddr}")
+        #ORM新增
+        add = students(cName=cName,cSex=cSex,cBirthday=cBirthday,cEmail=cEmail,cPhone=cPhone,cAddr=cAddr)
+        add.save()
+        #轉指redirect(指定新增資料完後轉到index頁面)
+        return redirect('/index/')
+    else:
+        return render(request,"post.html",locals())
